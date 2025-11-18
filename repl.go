@@ -1,18 +1,19 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 )
 
-func cleanInput(text string) []string {
-	fmt.Printf("cleanInput(%s)\n", text)
+func CleanInput(text string) []string {
 	if len(text) == 0 {
-		return []string{}
+		return []string{""}
 	}
 
 	splittedText := strings.Fields(strings.ToLower(text))
-	fmt.Printf("splittedText: %s\n", splittedText)
+
+	if splittedText == nil {
+		return []string{""}
+	}
 
 	return splittedText
 }
