@@ -37,7 +37,7 @@ func TestCleanInput(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		actual := CleanInput(c.input)
+		actual := cleanInput(c.input)
 		if len(actual) != len(c.expected) {
 			t.Errorf("Test fail: Slice mismatch. Expected %v got %v", c.expected, actual)
 		}
