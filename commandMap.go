@@ -7,26 +7,45 @@ import (
 )
 
 func commandMap(mapCommandConfig *MapCommandConfig) error {
-	url := mapCommandConfig.NextUrl
-	var response pokeapi.LocationAreaResponseJson
-	var err error
 
-	if url == "" {
-		response, err = pokeapi.GetLocationAreaV2(0, 0)
-	} else {
-		response, err = pokeapi.GetLocationAreaV2(0, 0)
-	}
+	response, err := pokeapi.GetLocationAreaV2(mapCommandConfig.NextUrl)
 	if err != nil {
 		fmt.Printf("error requesting to poké api: %v", err)
 	}
 
+	updateUrlsMapCommandConfig(mapCommandConfig, response)
+	printAnswer(response.Results)
+	return nil
+}
+
+func updateUrlsMapCommandConfig(mapCommandConfig *MapCommandConfig, response pokeapi.LocationAreaResponseJson) {
 	mapCommandConfig.NextUrl = response.Next
 	mapCommandConfig.PreviousUrl = response.Previous
-	locationNames := extractLocationNameFromMapPokeApi(response.Results)
+}
+
+func commandMapB(mapCommandConfig *MapCommandConfig) error {
+	response, err := pokeapi.GetLocationAreaV2(mapCommandConfig.PreviousUrl)
+	if err != nil {
+		fmt.Printf("error requesting to poké api: %v", err)
+	}
+
+	updateUrlsMapCommandConfig(mapCommandConfig, response)
+	printAnswer(response.Results)
+	return nil
+}
+
+func printAnswer(results []pokeapi.Results) {
+	locationNames := extractLocationsResponse(results)
 
 	for n := range locationNames {
 		fmt.Println(locationNames[n])
 	}
+}
 
-	return nil
+func extractLocationsResponse(results []pokeapi.Results) []string {
+	response := make([]string, len(results))
+	for i := range results {
+		response[i] = results[i].Name
+	}
+	return response
 }

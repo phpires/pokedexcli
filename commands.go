@@ -1,9 +1,5 @@
 package main
 
-import (
-	"github.com/phpires/pokedexcli/internal/pokeapi"
-)
-
 type cliCommand struct {
 	name        string
 	description string
@@ -34,12 +30,4 @@ func getCommands() map[string]cliCommand {
 		},
 	}
 	return commands
-}
-
-func extractLocationNameFromMapPokeApi(results []pokeapi.Results) []string {
-	response := make([]string, len(results))
-	for i := range results {
-		response[i] = results[i].Name
-	}
-	return response
 }

@@ -19,11 +19,14 @@ type Results struct {
 	Url  string `json:"Url"`
 }
 
-func GetLocationAreaV2(offset int, limit int) (LocationAreaResponseJson, error) {
-	url := "https://pokeapi.co/api/v2/location-area/"
+const (
+	baseURL = "https://pokeapi.co/api/v2"
+)
 
-	if offset != 0 || limit != 0 {
-		url = fmt.Sprintf("https://pokeapi.co/api/v2/location-area/?offset=%d&limit=%d", offset, limit)
+func GetLocationAreaV2(url string) (LocationAreaResponseJson, error) {
+
+	if len(url) == 0 {
+		url = baseURL
 	}
 
 	req, err := http.NewRequest("GET", url, nil)
