@@ -9,7 +9,7 @@ type cliCommand struct {
 func getCommands() map[string]cliCommand {
 	commands := map[string]cliCommand{
 		"exit": {
-			name:        "exist",
+			name:        "exit",
 			description: "Exit the Pokedex",
 			callback:    commandExit,
 		},
