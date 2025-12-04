@@ -28,7 +28,7 @@ func TestAddGet(t *testing.T) {
 			cache.Add(c.key, c.val)
 			val, ok := cache.Get(c.key)
 			if !ok {
-				t.Errorf("Expected to find value for key %v \n", c.key)
+				t.Errorf("Expected to find value for key %v\n", c.key)
 				return
 			}
 			if string(val) != string(c.val) {
