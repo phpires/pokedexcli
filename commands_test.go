@@ -11,8 +11,8 @@ func TestGetCommands(t *testing.T) {
 		commandsNames []string
 	}{
 		{
-			commandsSize:  4,
-			commandsNames: []string{"exit", "help", "map", "mapb"},
+			commandsSize:  5,
+			commandsNames: []string{"exit", "help", "map", "mapb", "explore"},
 		},
 	}
 

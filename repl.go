@@ -15,10 +15,13 @@ func startRepl(commandConfig *CommandConfig) {
 		scanner.Scan()
 		input := cleanInput(scanner.Text())
 		userCommand := input[0]
+		userParams := input[1:]
 		fmt.Printf("UserCommand: %v\n", userCommand)
+		fmt.Printf("User params: %v\n", userParams)
+
 		cmd, commandFound := getCommands()[userCommand]
 		if commandFound {
-			err := cmd.callback(commandConfig)
+			err := cmd.callback(commandConfig, userParams)
 			if err != nil {
 				fmt.Println(err)
 			}

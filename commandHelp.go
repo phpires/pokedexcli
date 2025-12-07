@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func commandHelp(mapCommandConfig *CommandConfig) error {
+func commandHelp(mapCommandConfig *CommandConfig, userParams []string) error {
 	var builder strings.Builder
 	builder.WriteString("Welcome to the Pokedex!\n")
 	builder.WriteString("Usage:\n")

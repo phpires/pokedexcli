@@ -5,13 +5,14 @@ import "github.com/phpires/pokedexcli/internal/pokeapi"
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*CommandConfig) error
+	callback    func(*CommandConfig, []string) error
 }
 
 type CommandConfig struct {
 	PokeApiClient pokeapi.Client
 	NextUrl       string
 	PreviousUrl   string
+	RegionName    string
 }
 
 func getCommands() map[string]cliCommand {
@@ -35,6 +36,11 @@ func getCommands() map[string]cliCommand {
 			name:        "mapb",
 			description: "Display the previous maps locations",
 			callback:    commandMapB,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Explore a specified location",
+			callback:    commandExplore,
 		},
 	}
 	return commands

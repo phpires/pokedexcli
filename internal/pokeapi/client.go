@@ -7,18 +7,6 @@ import (
 	"github.com/phpires/pokedexcli/internal/pokecache"
 )
 
-type LocationAreaResponseJson struct {
-	Next     string    `json:"next"`
-	Previous string    `json:"previous"`
-	Count    int       `json:"count"`
-	Results  []Results `json:"results"`
-}
-
-type Results struct {
-	Name string `json:"Name"`
-	Url  string `json:"Url"`
-}
-
 const (
 	baseURL = "https://pokeapi.co/api/v2"
 )

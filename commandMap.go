@@ -6,7 +6,7 @@ import (
 	"github.com/phpires/pokedexcli/internal/pokeapi"
 )
 
-func commandMap(commandConfig *CommandConfig) error {
+func commandMap(commandConfig *CommandConfig, userParams []string) error {
 	fmt.Println("Executing map command.")
 	response, err := commandConfig.PokeApiClient.GetLocationAreaV2(commandConfig.NextUrl)
 
@@ -20,7 +20,7 @@ func commandMap(commandConfig *CommandConfig) error {
 	return nil
 }
 
-func commandMapB(commandConfig *CommandConfig) error {
+func commandMapB(commandConfig *CommandConfig, userParams []string) error {
 
 	response, err := commandConfig.PokeApiClient.GetLocationAreaV2(commandConfig.PreviousUrl)
 
