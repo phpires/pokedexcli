@@ -43,8 +43,8 @@ func (c *Cache) reapLoop() {
 	}
 }
 
-func NewCache(interval time.Duration) *Cache {
-	c := &Cache{
+func NewCache(interval time.Duration) Cache {
+	c := Cache{
 		cacheEntry: map[string]cacheEntry{},
 		mutex:      &sync.Mutex{},
 		interval:   interval,

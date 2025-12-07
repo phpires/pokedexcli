@@ -7,34 +7,29 @@ import (
 	"net/http"
 )
 
-type LocationAreaResponseJson struct {
-	Next     string    `json:"next"`
-	Previous string    `json:"previous"`
-	Count    int       `json:"count"`
-	Results  []Results `json:"results"`
-}
+func (c *Client) GetLocationAreaV2(url string) (LocationAreaResponseJson, error) {
+	fmt.Printf("Making GET request from %v\n", url)
+	if val, ok := c.cache.Get(url); ok {
+		fmt.Println("Getting from cache")
+		locationAreaResponseJson := LocationAreaResponseJson{}
+		err := json.Unmarshal(val, &locationAreaResponseJson)
+		if err != nil {
+			return LocationAreaResponseJson{}, fmt.Errorf("error reading response from cache: %v", err)
+		}
+		return locationAreaResponseJson, nil
+	}
 
-type Results struct {
-	Name string `json:"Name"`
-	Url  string `json:"Url"`
-}
-
-const (
-	baseURL = "https://pokeapi.co/api/v2"
-)
-
-func GetLocationAreaV2(url string) (LocationAreaResponseJson, error) {
+	fmt.Println("Cache is empty, making pokeapi request")
 
 	if len(url) == 0 {
-		url = baseURL
+		url = baseURL + "/location-area?offset=0&limit=20"
 	}
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return LocationAreaResponseJson{}, fmt.Errorf("error creating request: %v", err)
 	}
-
-	client := http.Client{}
+	client := c.httpClient
 	res, err := client.Do(req)
 	if err != nil {
 		return LocationAreaResponseJson{}, fmt.Errorf("error on request: %v", err)
@@ -45,6 +40,7 @@ func GetLocationAreaV2(url string) (LocationAreaResponseJson, error) {
 	if statusCode > 299 {
 		return LocationAreaResponseJson{}, fmt.Errorf("status Code suggests error: %v", statusCode)
 	}
+	fmt.Printf("Request sucessful. Http status code: %v\n", statusCode)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
@@ -56,6 +52,8 @@ func GetLocationAreaV2(url string) (LocationAreaResponseJson, error) {
 	if err != nil {
 		return LocationAreaResponseJson{}, fmt.Errorf("error processing response body: %v", err)
 	}
+
+	c.cache.Add(url, body)
 
 	return jsonResponse, nil
 }

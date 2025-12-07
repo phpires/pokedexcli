@@ -6,32 +6,37 @@ import (
 	"github.com/phpires/pokedexcli/internal/pokeapi"
 )
 
-func commandMap(mapCommandConfig *MapCommandConfig) error {
+func commandMap(commandConfig *CommandConfig) error {
+	fmt.Println("Executing map command.")
+	response, err := commandConfig.PokeApiClient.GetLocationAreaV2(commandConfig.NextUrl)
 
-	response, err := pokeapi.GetLocationAreaV2(mapCommandConfig.NextUrl)
 	if err != nil {
 		fmt.Printf("error requesting to poké api: %v", err)
 	}
 
-	updateUrlsMapCommandConfig(mapCommandConfig, response)
+	updateUrlsMapCommandConfig(commandConfig, response)
 	printAnswer(response.Results)
+
 	return nil
 }
 
-func updateUrlsMapCommandConfig(mapCommandConfig *MapCommandConfig, response pokeapi.LocationAreaResponseJson) {
+func commandMapB(commandConfig *CommandConfig) error {
+
+	response, err := commandConfig.PokeApiClient.GetLocationAreaV2(commandConfig.PreviousUrl)
+
+	if err != nil {
+		fmt.Printf("error requesting to poké api: %v", err)
+	}
+
+	updateUrlsMapCommandConfig(commandConfig, response)
+	printAnswer(response.Results)
+
+	return nil
+}
+
+func updateUrlsMapCommandConfig(mapCommandConfig *CommandConfig, response pokeapi.LocationAreaResponseJson) {
 	mapCommandConfig.NextUrl = response.Next
 	mapCommandConfig.PreviousUrl = response.Previous
-}
-
-func commandMapB(mapCommandConfig *MapCommandConfig) error {
-	response, err := pokeapi.GetLocationAreaV2(mapCommandConfig.PreviousUrl)
-	if err != nil {
-		fmt.Printf("error requesting to poké api: %v", err)
-	}
-
-	updateUrlsMapCommandConfig(mapCommandConfig, response)
-	printAnswer(response.Results)
-	return nil
 }
 
 func printAnswer(results []pokeapi.Results) {

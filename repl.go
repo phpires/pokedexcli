@@ -7,19 +7,8 @@ import (
 	"strings"
 )
 
-type MapCommandConfig struct {
-	NextUrl     string
-	PreviousUrl string
-}
-
-func startRepl() {
-
+func startRepl(commandConfig *CommandConfig) {
 	scanner := bufio.NewScanner(os.Stdin)
-
-	mapCommandConfig := MapCommandConfig{
-		NextUrl:     "",
-		PreviousUrl: "",
-	}
 
 	for {
 		fmt.Print("Pokedex > ")
@@ -29,7 +18,7 @@ func startRepl() {
 		fmt.Printf("UserCommand: %v\n", userCommand)
 		cmd, commandFound := getCommands()[userCommand]
 		if commandFound {
-			err := cmd.callback(&mapCommandConfig)
+			err := cmd.callback(commandConfig)
 			if err != nil {
 				fmt.Println(err)
 			}

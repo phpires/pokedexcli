@@ -1,9 +1,17 @@
 package main
 
+import "github.com/phpires/pokedexcli/internal/pokeapi"
+
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*MapCommandConfig) error
+	callback    func(*CommandConfig) error
+}
+
+type CommandConfig struct {
+	PokeApiClient pokeapi.Client
+	NextUrl       string
+	PreviousUrl   string
 }
 
 func getCommands() map[string]cliCommand {
