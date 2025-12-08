@@ -12,6 +12,7 @@ func main() {
 		PokeApiClient: pokeapi.NewClient(5*time.Second, 5*time.Minute),
 		NextUrl:       "",
 		PreviousUrl:   "",
+		PokemonCaught: map[string]pokeapi.PokemonInfo{},
 	}
 	startRepl(&commandConfig)
 }

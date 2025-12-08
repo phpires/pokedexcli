@@ -37,6 +37,11 @@ func (c *Client) GetLocationRegion(regionName string) (LocationRegion, error) {
 	defer res.Body.Close()
 
 	statusCode := res.StatusCode
+
+	if statusCode == 404 {
+		return LocationRegion{}, fmt.Errorf("region not found: %v", regionName)
+	}
+
 	if statusCode > 299 {
 		return LocationRegion{}, fmt.Errorf("status Code suggests error: %v", statusCode)
 	}

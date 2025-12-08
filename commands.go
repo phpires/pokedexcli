@@ -13,6 +13,7 @@ type CommandConfig struct {
 	NextUrl       string
 	PreviousUrl   string
 	RegionName    string
+	PokemonCaught map[string]pokeapi.PokemonInfo
 }
 
 func getCommands() map[string]cliCommand {
@@ -38,9 +39,14 @@ func getCommands() map[string]cliCommand {
 			callback:    commandMapB,
 		},
 		"explore": {
-			name:        "explore",
+			name:        "explore <region_name>",
 			description: "Explore a specified location",
 			callback:    commandExplore,
+		},
+		"catch": {
+			name:        "catch <pokemon_name>",
+			description: "Catch a pokemon",
+			callback:    commandCatch,
 		},
 	}
 	return commands
