@@ -11,13 +11,14 @@ func commandExplore(commandConfig *CommandConfig, userParams []string) error {
 
 	commandConfig.RegionName = userParams[0]
 
-	res, err := commandConfig.PokeApiClient.GetLocationAreaRegionV2(commandConfig.RegionName)
+	location, err := commandConfig.PokeApiClient.GetLocationAreaRegionV2(commandConfig.RegionName)
 	if err != nil {
 		return err
 	}
-
-	for _, pkmEncounter := range res.PokemonEncounters {
-		fmt.Println(pkmEncounter.Pokemon.Name)
+	fmt.Printf("Exploring %v...\n", location.Name)
+	fmt.Println("Found Pokemon: ")
+	for _, pkmEncounter := range location.PokemonEncounters {
+		fmt.Printf(" - %s\n", pkmEncounter.Pokemon.Name)
 	}
 
 	return nil

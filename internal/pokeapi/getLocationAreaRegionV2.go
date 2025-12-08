@@ -14,7 +14,6 @@ func (c *Client) GetLocationAreaRegionV2(regionName string) (LocationAreaRegionR
 	if len(regionName) == 0 {
 		return LocationAreaRegionResponseJson{}, fmt.Errorf("region name must be provided")
 	}
-	fmt.Printf("The url to request is %s\n", reqUrl)
 
 	if val, ok := c.cache.Get(reqUrl); ok {
 		fmt.Println("Found cached value.")
@@ -41,7 +40,6 @@ func (c *Client) GetLocationAreaRegionV2(regionName string) (LocationAreaRegionR
 	if statusCode > 299 {
 		return LocationAreaRegionResponseJson{}, fmt.Errorf("status Code suggests error: %v", statusCode)
 	}
-	fmt.Printf("Request sucessful. Http status code: %v\n", statusCode)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {

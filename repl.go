@@ -16,8 +16,6 @@ func startRepl(commandConfig *CommandConfig) {
 		input := cleanInput(scanner.Text())
 		userCommand := input[0]
 		userParams := input[1:]
-		fmt.Printf("UserCommand: %v\n", userCommand)
-		fmt.Printf("User params: %v\n", userParams)
 
 		cmd, commandFound := getCommands()[userCommand]
 		if commandFound {

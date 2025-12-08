@@ -8,9 +8,7 @@ import (
 )
 
 func (c *Client) GetLocationAreaV2(url string) (LocationAreaResponseJson, error) {
-	fmt.Printf("Making GET request from %v\n", url)
 	if val, ok := c.cache.Get(url); ok {
-		fmt.Println("Getting from cache")
 		locationAreaResponseJson := LocationAreaResponseJson{}
 		err := json.Unmarshal(val, &locationAreaResponseJson)
 		if err != nil {
@@ -18,8 +16,6 @@ func (c *Client) GetLocationAreaV2(url string) (LocationAreaResponseJson, error)
 		}
 		return locationAreaResponseJson, nil
 	}
-
-	fmt.Println("Cache is empty, making pokeapi request")
 
 	if len(url) == 0 {
 		url = baseURL + "/location-area?offset=0&limit=20"
