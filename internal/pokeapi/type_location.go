@@ -1,6 +1,6 @@
 package pokeapi
 
-type LocationAreaResponseJson struct {
+type Location struct {
 	Next     string    `json:"next"`
 	Previous string    `json:"previous"`
 	Count    int       `json:"count"`

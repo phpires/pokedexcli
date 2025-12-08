@@ -11,7 +11,7 @@ func commandExplore(commandConfig *CommandConfig, userParams []string) error {
 
 	commandConfig.RegionName = userParams[0]
 
-	location, err := commandConfig.PokeApiClient.GetLocationAreaRegionV2(commandConfig.RegionName)
+	location, err := commandConfig.PokeApiClient.GetLocationRegion(commandConfig.RegionName)
 	if err != nil {
 		return err
 	}

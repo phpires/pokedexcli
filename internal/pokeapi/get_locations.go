@@ -7,12 +7,12 @@ import (
 	"net/http"
 )
 
-func (c *Client) GetLocationAreaV2(url string) (LocationAreaResponseJson, error) {
+func (c *Client) GetLocations(url string) (Location, error) {
 	if val, ok := c.cache.Get(url); ok {
-		locationAreaResponseJson := LocationAreaResponseJson{}
+		locationAreaResponseJson := Location{}
 		err := json.Unmarshal(val, &locationAreaResponseJson)
 		if err != nil {
-			return LocationAreaResponseJson{}, fmt.Errorf("error reading response from cache: %v", err)
+			return Location{}, fmt.Errorf("error reading response from cache: %v", err)
 		}
 		return locationAreaResponseJson, nil
 	}
@@ -23,30 +23,30 @@ func (c *Client) GetLocationAreaV2(url string) (LocationAreaResponseJson, error)
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return LocationAreaResponseJson{}, fmt.Errorf("error creating request: %v", err)
+		return Location{}, fmt.Errorf("error creating request: %v", err)
 	}
 	client := c.httpClient
 	res, err := client.Do(req)
 	if err != nil {
-		return LocationAreaResponseJson{}, fmt.Errorf("error on request: %v", err)
+		return Location{}, fmt.Errorf("error on request: %v", err)
 	}
 	defer res.Body.Close()
 
 	statusCode := res.StatusCode
 	if statusCode > 299 {
-		return LocationAreaResponseJson{}, fmt.Errorf("status Code suggests error: %v", statusCode)
+		return Location{}, fmt.Errorf("status Code suggests error: %v", statusCode)
 	}
 	fmt.Printf("Request sucessful. Http status code: %v\n", statusCode)
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		return LocationAreaResponseJson{}, fmt.Errorf("error reading response body: %v", err)
+		return Location{}, fmt.Errorf("error reading response body: %v", err)
 	}
 
-	var jsonResponse LocationAreaResponseJson
+	var jsonResponse Location
 	err = json.Unmarshal(body, &jsonResponse)
 	if err != nil {
-		return LocationAreaResponseJson{}, fmt.Errorf("error processing response body: %v", err)
+		return Location{}, fmt.Errorf("error processing response body: %v", err)
 	}
 
 	c.cache.Add(url, body)

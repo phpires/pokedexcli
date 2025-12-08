@@ -1,6 +1,6 @@
 package pokeapi
 
-type LocationAreaRegionResponseJson struct {
+type LocationRegion struct {
 	ID                   int    `json:"id"`
 	Name                 string `json:"name"`
 	GameIndex            int    `json:"game_index"`

@@ -8,7 +8,7 @@ import (
 
 func commandMap(commandConfig *CommandConfig, userParams []string) error {
 	fmt.Println("Executing map command.")
-	response, err := commandConfig.PokeApiClient.GetLocationAreaV2(commandConfig.NextUrl)
+	response, err := commandConfig.PokeApiClient.GetLocations(commandConfig.NextUrl)
 
 	if err != nil {
 		fmt.Printf("error requesting to poké api: %v", err)
@@ -22,7 +22,7 @@ func commandMap(commandConfig *CommandConfig, userParams []string) error {
 
 func commandMapB(commandConfig *CommandConfig, userParams []string) error {
 
-	response, err := commandConfig.PokeApiClient.GetLocationAreaV2(commandConfig.PreviousUrl)
+	response, err := commandConfig.PokeApiClient.GetLocations(commandConfig.PreviousUrl)
 
 	if err != nil {
 		fmt.Printf("error requesting to poké api: %v", err)
@@ -34,7 +34,7 @@ func commandMapB(commandConfig *CommandConfig, userParams []string) error {
 	return nil
 }
 
-func updateUrlsMapCommandConfig(mapCommandConfig *CommandConfig, response pokeapi.LocationAreaResponseJson) {
+func updateUrlsMapCommandConfig(mapCommandConfig *CommandConfig, response pokeapi.Location) {
 	mapCommandConfig.NextUrl = response.Next
 	mapCommandConfig.PreviousUrl = response.Previous
 }
