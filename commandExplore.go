@@ -2,16 +2,23 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/phpires/pokedexcli/internal/pokeapi"
 )
 
 func commandExplore(commandConfig *CommandConfig, userParams []string) error {
 	if len(userParams) == 0 {
 		return fmt.Errorf("must pass a region to explore command")
 	}
-	region := userParams[0]
-	res := pokeapi.GetLocationAreaRegionV2(commandConfig.NextUrl, region)
+
+	commandConfig.RegionName = userParams[0]
+
+	res, err := commandConfig.PokeApiClient.GetLocationAreaRegionV2(commandConfig.RegionName)
+	if err != nil {
+		return err
+	}
+
+	for _, pkmEncounter := range res.PokemonEncounters {
+		fmt.Println(pkmEncounter.Pokemon.Name)
+	}
 
 	return nil
 }
